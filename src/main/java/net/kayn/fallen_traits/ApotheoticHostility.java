@@ -12,13 +12,13 @@ import org.jetbrains.annotations.NotNull;
 
 @Mod(ApotheoticHostility.MOD_ID)
 public class ApotheoticHostility {
-    public static final String MOD_ID = "fallen_traits";
+    public static final String MOD_ID = "apotheotic_hostility";
     private static final Logger LOGGER = LogManager.getLogger();
 
     public ApotheoticHostility(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
 
-        LOGGER.info("Loading Fallen Traits");
+        LOGGER.info("Loading Apotheotic Hostility");
 
         modEventBus.addListener(this::commonSetup);
 
