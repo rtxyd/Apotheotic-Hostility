@@ -3,32 +3,32 @@
     {
       "min_level": 0,
       "tier": "apotheosis:common",
-      "chance": 1
+      "chance": 0.05
     },
     {
       "min_level": 100,
       "tier": "apotheosis:uncommon",
-      "chance": 1
+      "chance": 0.045
     },
     {
       "min_level": 200,
       "tier": "apotheosis:rare",
-      "chance": 1
+      "chance": 0.04
     },
     {
       "min_level": 300,
       "tier": "apotheosis:epic",
-      "chance": 1
+      "chance": 0.036
     },
     {
       "min_level": 400,
       "tier": "apotheosis:mythic",
-      "chance": 1
+      "chance": 0.033
     },
     {
       "min_level": 500,
       "tier": "apotheosis:ancient",
-      "chance": 1
+      "chance": 0.03
     }
   ]
 }
