@@ -3,11 +3,8 @@ plugins {
     id 'eclipse'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0.13, 6.2)'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'org.spongepowered.mixin' version '0.7.+'
-    id "net.darkhax.curseforgegradle" version "1.0.7"
-    id "com.modrinth.minotaur" version "2.+"
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.2.0'
 }
 
 base {
@@ -20,10 +17,12 @@ jarJar.enable()
 
 minecraft {
     mappings channel: 'parchment', version: project.properties.parchment_version
+
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
     enableEclipsePrepareRuns = true
     copyIdeResources = true
     generateRunFolders = true
+
     runs {
         configureEach {
             workingDirectory project.file('run')
@@ -36,14 +35,13 @@ minecraft {
             }
         }
 
-        client = {
+        client {
             jvmArgs '-Xms2G', '-Xmx4G'
-//            jvmArgs '-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005'
         }
-        server = {
+        server {
             args "--nogui"
         }
-        data = {
+        data {
             workingDirectory project.file('run-data')
             args '--mod', "${modid}", '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
         }
@@ -55,76 +53,37 @@ sourceSets.main.resources {
 }
 
 repositories {
+    mavenCentral() // Always first for standard libs
+
+    // REQUIRED for Parchment Mappings
+    maven {
+        name = 'ParchmentMC'
+        url = 'https://maven.parchmentmc.org'
+    }
 
     maven {
         url "https://www.cursemaven.com"
-        content {
-            includeGroup "curse.maven"
-        }
+        content { includeGroup "curse.maven" }
     }
 
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "Modrinth"
-                url = "https://api.modrinth.com/maven"
-            }
-        }
-        forRepositories(fg.repository)
-        filter {
-            includeGroup "maven.modrinth"
-        }
-    }
-
+    // Moved Modrinth out of exclusiveContent to prevent FG resolution blocks
     maven {
-        url "https://maven.theillusivec4.top"
-        content {
-            includeGroupByRegex "top\\.theillusivec4.*"
-        }
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content { includeGroup "maven.modrinth" }
     }
 
-    maven {
-        url "https://maven.shadowsoffire.dev/releases"
-        content {
-            includeGroup "dev.shadowsoffire"
-        }
-    }
-
-    maven {
-        url "https://maven.blamejared.com"
-        content {
-            includeGroup "vazkii.patchouli"
-            includeGroupByRegex "net\\.darkhax.*"
-            includeGroupByRegex "com\\.blamejared.*"
-            includeGroup "mezz.jei"
-        }
-    }
-
-    maven {
-        url "https://maven.k-4u.nl"
-        content {
-            includeGroup "mcjty.theoneprobe"
-        }
-    }
-
+    maven { url "https://maven.theillusivec4.top" }
+    maven { url "https://maven.shadowsoffire.dev/releases" }
+    maven { url "https://maven.blamejared.com" }
+    maven { url "https://maven.k-4u.nl" }
     maven { url 'https://maven.shedaniel.me/' }
     maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
     maven { url 'https://maven.kosmx.dev/' }
     maven { url "https://rtxyd.github.io/maven-repo" }
-
-    maven {
-        name = "Iron's Maven - Release"
-        url = "https://code.redspace.io/releases"
-    }
-
-    maven {
-        name = "Iron's Maven - Snapshots"
-        url = "https://code.redspace.io/snapshots"
-    }
-
+    maven { url "https://code.redspace.io/releases" }
+    maven { url "https://code.redspace.io/snapshots" }
     maven { url 'https://jitpack.io' }
-
-    mavenCentral()
 }
 
 dependencies {
@@ -144,11 +103,11 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:attributefix-280510:4911084")
 
     // L2Hostility and dependencies
-    implementation fg.deobf("dev.xkmc.l2library:l2library:${l2library_version}-slim")
-    implementation fg.deobf("dev.xkmc.l2serial:l2serial:${l2serial_version}")
-    implementation fg.deobf("dev.xkmc.l2complements:l2complements:${l2complements_version}")
-    implementation fg.deobf("dev.xkmc.l2tabs:l2tabs:${l2tabs_version}")
-    implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:${l2hostility_version}")
+    implementation fg.deobf(files("libs/l2library-${l2library_version}-slim.jar"))
+    implementation fg.deobf(files("libs/l2serial-${l2serial_version}.jar"))
+    implementation fg.deobf(files("libs/l2complements-${l2complements_version}.jar"))
+    implementation fg.deobf(files("libs/l2tabs-${l2tabs_version}.jar"))
+    implementation fg.deobf(files("libs/l2hostility-${l2hostility_version}.jar"))
 
     // Dev Env Mods
     implementation fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
@@ -164,11 +123,10 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:patchouli-306770:6164575")
 }
 
-    mixin {
-        add sourceSets.main, "${modid}.refmap.json"
-        config "${modid}.mixins.json"
-    }
-
+mixin {
+    add sourceSets.main, "${modid}.refmap.json"
+    config "${modid}.mixins.json"
+}
 
 tasks.named('processResources', ProcessResources).configure {
     def replaceProperties = [
@@ -182,65 +140,11 @@ tasks.named('processResources', ProcessResources).configure {
             javaVersion : javaVersion,
             forgeVersion: forge_version
     ]
-
     inputs.properties replaceProperties
-
-    def resourceTargets = [
-            'META-INF/mods.toml',
-            'pack.mcmeta'
-    ]
-
-    filesMatching(resourceTargets) {
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
         expand replaceProperties
-    }
-
-    filesMatching('mixins.json') {
-        def mixinFiles = []
-        def clientMixinFiles = []
-
-        def path = "${project.projectDir}/src/main/java/${modGroup}/${modid}/mixin".replaceAll('\\.', '/')
-        fileTree(path).visit { FileVisitDetails details ->
-            def name = details.file.path.replace('\\', '/')
-            name = name.substring(name.indexOf('mixin/') + 'mixin/'.length(), name.length())
-            if (name.endsWith('.java')) {
-                name = name.substring(0, name.length() - '.java'.length())
-                if (name.startsWith('client')) {
-                    clientMixinFiles.add(name)
-                } else {
-                    mixinFiles.add(name)
-                }
-            }
-        }
-
-        def mixins = ''
-        def clientMixins = ''
-
-        for (int i = 0; i < mixinFiles.size(); i++) {
-            def name = mixinFiles[i]
-            name = name.replaceAll('\\/', '.')
-            mixins += '        "' + name + '"'
-            if (i != mixinFiles.size() - 1) {
-                mixins += ',\n'
-            }
-        }
-
-        for (int i = 0; i < clientMixinFiles.size(); i++) {
-            def name = clientMixinFiles[i]
-            name = name.replaceAll('\\/', '.')
-            clientMixins += '        "' + name + '"'
-            if (i != clientMixinFiles.size() - 1) {
-                clientMixins += ',\n'
-            }
-        }
-
-        replaceProperties.put('mixins', mixins)
-        replaceProperties.put('clientMixins', clientMixins)
-
-        expand replaceProperties
-        name "${modid}.mixins.json".toString()
     }
 }
-
 
 tasks.named('jarJar') {
     dependsOn('reobfJar')
@@ -264,90 +168,10 @@ tasks.named('jar', Jar).configure {
     finalizedBy 'reobfJar', 'jarJar'
 }
 
-tasks.register('generateUpdateJson') {
-    def inputFile = file(".github/update_template.json")
-    def outputFile = file("update.json")
-
-    inputs.file(inputFile)
-    outputs.file(outputFile)
-
-    doLast {
-        def modVersion = project.version.toString()
-        def mcVersion = mc_version
-        def map = [
-                "{{MCVERSION}}": mcVersion,
-                "{{VERSION}}"  : modVersion
-        ]
-        def content = inputFile.getText("UTF-8")
-                .replace(map)
-
-        outputFile.parentFile.mkdirs()
-        outputFile.write(content, "UTF-8")
-        println "Generated update.json with ${mcVersion}-${modVersion}"
-    }
-}
-
-tasks.named("processResources").configure {
-    dependsOn tasks.named("generateUpdateJson")
-}
-
 java {
     withSourcesJar()
 }
 
-tasks.withType(GenerateModuleMetadata) {
-    enabled = false
-}
-
-modrinth {
-    token = System.getenv("MODRINTH_TOKEN")
-    projectId = "apotheosis-ascended"
-    versionNumber = "${version}"
-    versionType = "release"
-    versionName = "Apotheosis Ascended ${rootProject.version}+${mc_version}"
-    changelog = new File("$project.rootDir/CHANGELOG.md").getText('UTF-8')
-    uploadFile = jar
-    gameVersions = forge_game_versions.split(", ").toList()
-    loaders = forge_mod_loaders.split(", ").collect { return it.toLowerCase(Locale.ROOT) }
-    dependencies {
-        required.project("additional-attributes")
-        required.project("runiclib")
-    }
-}
-
-
-task publishCurseForge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
-    group = 'publishing'
-    apiToken = System.getenv("CF_TOKEN")
-    def mainFile = upload(1144178, jar)
-    mainFile.displayName = "Apotheosis Ascended ${rootProject.version}+${mc_version}"
-    mainFile.releaseType = "release"
-    mainFile.changelog = new File("$project.rootDir/CHANGELOG.md").getText('UTF-8')
-    mainFile.changelogType = "markdown"
-    forge_mod_loaders.split(", ").each {
-        mainFile.addModLoader(it)
-    }
-    mainFile.addGameVersion("1.20.1")
-
-    mainFile.addRequirement("apotheosis")
-    mainFile.addRequirement("additional-attributes")
-    mainFile.addRequirement("runiclib")
-}
-
-task publishAll {
-    dependsOn('publishCurseForge')
-    dependsOn('modrinth')
-    group = 'publishing'
-
-    tasks.withType(JavaCompile).configureEach {
-        options.encoding = 'UTF-8'
-        options.compilerArgs.removeAll(["-Werror"])
-        options.compilerArgs += ["-Xlint:deprecation"]
-    }
-}
-
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
-    options.compilerArgs.removeAll(["-Werror"])
-    options.compilerArgs += ["-Xlint:deprecation"]
 }
