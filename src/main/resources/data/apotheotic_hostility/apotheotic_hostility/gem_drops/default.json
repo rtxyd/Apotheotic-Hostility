@@ -1,0 +1,34 @@
+{
+  "gem_drops": [
+    {
+      "min_level": 0,
+      "tier": "apotheosis:common",
+      "chance": 1
+    },
+    {
+      "min_level": 100,
+      "tier": "apotheosis:uncommon",
+      "chance": 1
+    },
+    {
+      "min_level": 200,
+      "tier": "apotheosis:rare",
+      "chance": 1
+    },
+    {
+      "min_level": 300,
+      "tier": "apotheosis:epic",
+      "chance": 1
+    },
+    {
+      "min_level": 400,
+      "tier": "apotheosis:mythic",
+      "chance": 1
+    },
+    {
+      "min_level": 500,
+      "tier": "apotheosis:ancient",
+      "chance": 1
+    }
+  ]
+}

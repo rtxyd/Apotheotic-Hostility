@@ -53,9 +53,12 @@ sourceSets.main.resources {
 }
 
 repositories {
-    mavenCentral() // Always first for standard libs
+    mavenCentral()
 
-    // REQUIRED for Parchment Mappings
+    flatDir {
+        dirs 'libs'
+    }
+
     maven {
         name = 'ParchmentMC'
         url = 'https://maven.parchmentmc.org'
@@ -66,7 +69,6 @@ repositories {
         content { includeGroup "curse.maven" }
     }
 
-    // Moved Modrinth out of exclusiveContent to prevent FG resolution blocks
     maven {
         name = "Modrinth"
         url = "https://api.modrinth.com/maven"
@@ -103,11 +105,11 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:attributefix-280510:4911084")
 
     // L2Hostility and dependencies
-    implementation fg.deobf(files("libs/l2library-${l2library_version}-slim.jar"))
-    implementation fg.deobf(files("libs/l2serial-${l2serial_version}.jar"))
-    implementation fg.deobf(files("libs/l2complements-${l2complements_version}.jar"))
-    implementation fg.deobf(files("libs/l2tabs-${l2tabs_version}.jar"))
-    implementation fg.deobf(files("libs/l2hostility-${l2hostility_version}.jar"))
+    implementation fg.deobf("dev.xkmc.l2library:12library:${l2library_version}-slim")
+    implementation fg.deobf("dev.xkmc.l2serial:12serial:1.2.2")
+    implementation fg.deobf("dev.xkmc.l2complements:12complements:2.6.1")
+    implementation fg.deobf("dev.xkmc.l2tabs:12tabs:0.3.3")
+    implementation fg.deobf("dev.xkmc.l2hostility:12hostility:2.5.14")
 
     // Dev Env Mods
     implementation fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
@@ -121,6 +123,7 @@ dependencies {
     runtimeOnly fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:${player_anim_version}")
     runtimeOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:${caelus_version}")
     runtimeOnly fg.deobf("curse.maven:patchouli-306770:6164575")
+    runtimeOnly fg.deobf("curse.maven:selene-499980:6611244")
 }
 
 mixin {

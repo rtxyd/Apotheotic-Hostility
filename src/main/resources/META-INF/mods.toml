@@ -6,72 +6,65 @@ issueTrackerURL=""
 showAsResourcePack=false
 
 [[mods]]
-modId="fallen_traits"
+modId="apotheotic_hostility"
 version="1.20.1-1.0.0"
-displayName="Fallen Traits"
+displayName="Apotheotic Hostility"
 updateJSONURL=""
 displayURL=""
 logoFile="logo.png"
 credits="me"
 authors="Kayn"
 description='''
-  An L2 Hostility addon which intergrates a bunch of other mods with it
+  A mod that integrates L2Hostility and Apotheosis together
   '''
 displayTest="MATCH_VERSION"
 
-[[dependencies.fallen_traits]]
+[[dependencies.apotheotic_hostility]]
 modId="forge"
 mandatory=true
 versionRange="[47,)"
 ordering="NONE"
 side="BOTH"
-[[dependencies.fallen_traits]]
+[[dependencies.apotheotic_hostility]]
 modId="minecraft"
 mandatory=true
 versionRange="[1.20.1]"
 ordering="NONE"
 side="BOTH"
-[[dependencies.fallen_traits]]
+[[dependencies.apotheotic_hostility]]
 modId="l2library"
 mandatory=true
 versionRange="[2.4.23,)"
 ordering="AFTER"
 side="BOTH"
-[[dependencies.fallen_traits]]
+[[dependencies.apotheotic_hostility]]
 modId="l2complements"
 mandatory=true
 versionRange="[2.4.29,)"
 ordering="AFTER"
 side="BOTH"
-[[dependencies.fallen_traits]]
+[[dependencies.apotheotic_hostility]]
 modId="l2hostility"
 mandatory=false
 versionRange="[2.5.6,)"
 ordering="AFTER"
 side="BOTH"
-[[dependencies.fallen_traits]]
+[[dependencies.apotheotic_hostility]]
 modId="l2tabs"
 mandatory=true
 versionRange="[0.2.3,)"
 ordering="AFTER"
 side="BOTH"
-[[dependencies.fallen_traits]]
+[[dependencies.apotheotic_hostility]]
 modId="curios"
 mandatory=true
 versionRange="[5.4.5,)"
 ordering="AFTER"
 side="BOTH"
 
-[[dependencies.fallen_traits]]
-modId="irons_spellbooks"
+[[dependencies.apotheotic_hostility]]
+modId="apotheosis"
 mandatory=true
 versionRange="[1.0,)"
-ordering="AFTER"
-side="BOTH"
-
-[[dependencies.fallen_traits]]
-modId="cataclysm"
-mandatory=true
-versionRange="[2.0,)"
 ordering="AFTER"
 side="BOTH"
