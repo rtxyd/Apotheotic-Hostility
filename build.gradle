@@ -105,11 +105,11 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:attributefix-280510:4911084")
 
     // L2Hostility and dependencies
-    implementation fg.deobf("dev.xkmc.l2library:12library:${l2library_version}-slim")
-    implementation fg.deobf("dev.xkmc.l2serial:12serial:1.2.2")
-    implementation fg.deobf("dev.xkmc.l2complements:12complements:2.6.1")
-    implementation fg.deobf("dev.xkmc.l2tabs:12tabs:0.3.3")
-    implementation fg.deobf("dev.xkmc.l2hostility:12hostility:2.5.14")
+    implementation fg.deobf("dev.xkmc.l2library:l2library:${l2library_version}-slim")
+    implementation fg.deobf("dev.xkmc.l2serial:l2serial:1.2.2")
+    implementation fg.deobf("dev.xkmc.l2complements:l2complements:2.6.1")
+    implementation fg.deobf("dev.xkmc.l2tabs:l2tabs:0.3.3")
+    implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:2.5.14")
 
     // Dev Env Mods
     implementation fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
