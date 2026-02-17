@@ -1,0 +1,8 @@
+{
+  "conditions": [
+    {
+      "condition": "forge:false"
+    }
+  ],
+  "type": "apotheosis:gems"
+}
