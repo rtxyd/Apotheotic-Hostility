@@ -10,9 +10,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BossScalingManager extends SimpleJsonResourceReloadListener {
@@ -47,6 +45,7 @@ public class BossScalingManager extends SimpleJsonResourceReloadListener {
                 for (BossScalingConfig.BossScalingEntry entry : config.getList()) {
                     for (ResourceLocation bossId : entry.bosses) {
                         bossConfigs.put(bossId, entry);
+
                         ApotheoticHostility.LOGGER.debug(
                                 "Registered boss scaling for {} (base: {}, min: {})",
                                 bossId,

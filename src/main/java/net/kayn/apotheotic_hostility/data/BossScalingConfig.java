@@ -3,6 +3,7 @@ package net.kayn.apotheotic_hostility.data;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2hostility.content.config.EntityConfig;
+import dev.xkmc.l2hostility.content.config.WorldDifficultyConfig;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import dev.xkmc.l2hostility.init.registrate.LHTraits;
 import net.minecraft.resources.ResourceLocation;
@@ -52,15 +53,33 @@ public class BossScalingConfig {
         }
 
         public EntityConfig.Config toEntityConfig() {
-            EntityConfig.Config config = EntityConfig.entity(minSpawnLevel, difficulty.base, difficulty.variation, difficulty.scale, healthScale, attackScale, List.of());
+            WorldDifficultyConfig.DifficultyConfig diffConfig = new WorldDifficultyConfig.DifficultyConfig(
+                    difficulty.min,
+                    difficulty.base,
+                    difficulty.variation,
+                    difficulty.scale,
+                    difficulty.applyChance,
+                    difficulty.traitChance,
+                    difficulty.suppression
+            );
+
+            EntityConfig.Config config = new EntityConfig.Config(List.of(), diffConfig);
 
             config.minSpawnLevel = minSpawnLevel;
             config.maxLevel = maxLevel;
             config.maxTraitCount = maxTraitCount;
+            config.healthScale = healthScale;
+            config.attackScale = attackScale;
 
-            config.trait(traits.stream().map(t -> EntityConfig.trait(LHTraits.TRAITS.get().getValue(t.trait), t.free, t.min)).filter(t -> t.trait() != null).toList());
+            config.trait(traits.stream()
+                    .map(t -> EntityConfig.trait(LHTraits.TRAITS.get().getValue(t.trait), t.free, t.min))
+                    .filter(t -> t.trait() != null)
+                    .toList());
 
-            config.blacklist(blacklist.stream().map(id -> LHTraits.TRAITS.get().getValue(id)).filter(java.util.Objects::nonNull).toArray(MobTrait[]::new));
+            config.blacklist(blacklist.stream()
+                    .map(id -> LHTraits.TRAITS.get().getValue(id))
+                    .filter(java.util.Objects::nonNull)
+                    .toArray(MobTrait[]::new));
 
             return config;
         }
