@@ -1,7 +1,8 @@
 {
   "conditions": [
     {
-      "condition": "forge:false"
+      "condition": "minecraft:random_chance",
+      "chance": 0.0
     }
   ],
   "type": "apotheosis:gems"

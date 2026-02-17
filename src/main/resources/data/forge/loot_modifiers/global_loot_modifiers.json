@@ -1,6 +1,7 @@
 {
   "replace": false,
   "entries": [
-    "apotheotic_hostility:hostility_gem_modifier"
+    "apotheotic_hostility:hostility_gem_modifier",
+    "apotheosis:gems"
   ]
 }
