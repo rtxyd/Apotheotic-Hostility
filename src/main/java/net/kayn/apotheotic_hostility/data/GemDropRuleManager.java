@@ -17,7 +17,7 @@ import java.util.Map;
 public class GemDropRuleManager extends SimpleJsonResourceReloadListener {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-    private static final String DIRECTORY = "apotheotic_hostility/gem_drops";
+    private static final String DIRECTORY = "gem_drops";
 
     private static GemDropRuleManager INSTANCE;
     private final List<GemDropRules.GemDropEntry> rules = new ArrayList<>();
