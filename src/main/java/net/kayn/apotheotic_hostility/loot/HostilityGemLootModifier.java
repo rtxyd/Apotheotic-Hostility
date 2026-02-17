@@ -2,9 +2,9 @@ package net.kayn.apotheotic_hostility.loot;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.shadowsoffire.apotheosis.adventure.affix.AffixHelper;
 import dev.shadowsoffire.apotheosis.adventure.loot.LootRarity;
 import dev.shadowsoffire.apotheosis.adventure.loot.RarityRegistry;
+import dev.shadowsoffire.apotheosis.adventure.socket.gem.Gem;
 import dev.shadowsoffire.apotheosis.adventure.socket.gem.GemRegistry;
 import dev.xkmc.l2hostility.content.capability.mob.MobTraitCap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -20,6 +20,7 @@ import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class HostilityGemLootModifier extends LootModifier {
 
@@ -53,16 +54,28 @@ public class HostilityGemLootModifier extends LootModifier {
 
         if (context.getRandom().nextDouble() < dropRule.getChance()) {
             try {
-                LootRarity rarity = RarityRegistry.INSTANCE.getValue(dropRule.getTier());
+                LootRarity targetRarity = RarityRegistry.INSTANCE.getValue(dropRule.getTier());
 
-                if (rarity == null) {
+                if (targetRarity == null) {
                     return generatedLoot;
                 }
 
-                ItemStack gemStack = GemRegistry.createRandomGemStack(context.getRandom(), context.getLevel(), context.getLuck());
+                List<Gem> validGems = GemRegistry.INSTANCE.getValues().stream().filter(gem -> {
+
+                    boolean withinRange = targetRarity.isAtLeast(gem.getMinRarity()) && targetRarity.isAtMost(gem.getMaxRarity());
+                    if (!withinRange) return false;
+
+                    return gem.getBonuses().stream().anyMatch(bonus -> bonus.supports(targetRarity));
+                }).toList();
+
+                if (validGems.isEmpty()) {
+                    return generatedLoot;
+                }
+                Gem selectedGem = validGems.get(context.getRandom().nextInt(validGems.size()));
+
+                ItemStack gemStack = GemRegistry.createGemStack(selectedGem, targetRarity);
 
                 if (!gemStack.isEmpty()) {
-                    AffixHelper.setRarity(gemStack, rarity);
                     generatedLoot.add(gemStack);
                 }
             } catch (Exception ignored) {
