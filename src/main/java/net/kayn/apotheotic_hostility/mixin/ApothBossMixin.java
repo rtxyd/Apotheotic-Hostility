@@ -125,8 +125,6 @@ public class ApothBossMixin {
 
             if (chosen.isEmpty()) {
                 ApotheoticHostility.LOGGER.info("Discarding boss {} (level {}) - no eligible rarity", bossId, lvl);
-                cir.setReturnValue(null);
-                cir.cancel();
                 return;
             }
 
