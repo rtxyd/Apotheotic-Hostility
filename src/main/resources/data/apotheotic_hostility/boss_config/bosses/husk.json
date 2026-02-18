@@ -9,8 +9,8 @@
       ],
       "difficulty": {
         "apply_chance": 1.0,
-        "base": 100,
-        "min": 300,
+        "base": 0,
+        "min": 0,
         "scale": 0.0,
         "suppression": 0.0,
         "trait_chance": 1.0,
@@ -22,13 +22,22 @@
       "healthScale": 1.0,
       "maxLevel": 0,
       "maxTraitCount": -1,
-      "minSpawnLevel": 500,
       "traits": [
         {
           "cap": false,
           "free": 0,
           "min": 1,
           "trait": "l2hostility:adaptive"
+        }
+      ],
+      "rarity_requirements": [
+        {
+          "rarity": "apotheosis:uncommon",
+          "minSpawnLevel": 100
+        },
+        {
+          "rarity": "apotheosis:rare",
+          "minSpawnLevel": 200
         }
       ]
     }

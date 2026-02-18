@@ -7,7 +7,9 @@ import dev.xkmc.l2hostility.init.registrate.LHTraits;
 import net.kayn.apotheotic_hostility.ApotheoticHostility;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -24,15 +26,19 @@ public class BossScalingConfig {
 
         public DifficultyConfig difficulty;
 
-        public int maxLevel, maxTraitCount, minSpawnLevel;
+        public int maxLevel, maxTraitCount;
 
         public List<TraitEntry> traits;
 
+        public List<RarityRequirement> rarity_requirements;
+
         public EntityConfig.Config toEntityConfig() {
-            WorldDifficultyConfig.DifficultyConfig diffConfig = new WorldDifficultyConfig.DifficultyConfig(difficulty.min, difficulty.base, difficulty.variation, difficulty.scale, difficulty.apply_chance, difficulty.trait_chance, difficulty.suppression);
+            WorldDifficultyConfig.DifficultyConfig diffConfig = new WorldDifficultyConfig.DifficultyConfig(
+                    difficulty.min, difficulty.base, difficulty.variation, difficulty.scale,
+                    difficulty.apply_chance, difficulty.trait_chance, difficulty.suppression
+            );
 
             EntityConfig.Config config = new EntityConfig.Config(List.of(), diffConfig);
-            config.minSpawnLevel = minSpawnLevel;
             config.maxLevel = maxLevel;
             config.maxTraitCount = maxTraitCount;
             config.healthScale = healthScale;
@@ -77,8 +83,24 @@ public class BossScalingConfig {
 
             return config;
         }
-    }
 
+        public Map<ResourceLocation, Integer> getRarityRequirementMap() {
+            if (rarity_requirements == null || rarity_requirements.isEmpty()) {
+                return new HashMap<>();
+            }
+
+            Map<ResourceLocation, Integer> map = new HashMap<>();
+            for (RarityRequirement req : rarity_requirements) {
+                try {
+                    ResourceLocation rarityId = new ResourceLocation(req.rarity);
+                    map.put(rarityId, req.minSpawnLevel);
+                } catch (Exception ex) {
+                    ApotheoticHostility.LOGGER.warn("[BossScaling] invalid rarity id '{}'", req.rarity);
+                }
+            }
+            return map;
+        }
+    }
 
     public static class DifficultyConfig {
         public double apply_chance, scale, suppression, trait_chance, variation;
@@ -87,9 +109,12 @@ public class BossScalingConfig {
 
     public static class TraitEntry {
         public boolean cap;
-
         public int free, min;
-
         public String trait;
+    }
+
+    public static class RarityRequirement {
+        public String rarity;
+        public int minSpawnLevel;
     }
 }
