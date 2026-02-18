@@ -6,7 +6,8 @@
   "mixins": [
     "ApothBossMixin",
     "TraitSymbolMixin",
-    "BossEventsMixin"
+    "BossEventsMixin",
+    "GemLootModifierMixin"
   ],
   "client": [
   ],
