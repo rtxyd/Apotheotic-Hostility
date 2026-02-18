@@ -5,7 +5,8 @@
   "refmap": "apotheotic_hostility.refmap.json",
   "mixins": [
     "ApothBossMixin",
-    "TraitSymbolMixin"
+    "TraitSymbolMixin",
+    "BossEventsMixin"
   ],
   "client": [
   ],
