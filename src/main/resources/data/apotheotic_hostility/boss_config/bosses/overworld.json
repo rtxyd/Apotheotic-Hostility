@@ -3,9 +3,6 @@
     {
       "attackScale": 1.0,
       "blacklist": [
-        "l2hostility:moonwalk",
-        "l2hostility:gravity",
-        "l2hostility:invisible"
       ],
       "difficulty": {
         "apply_chance": 1.0,
@@ -17,18 +14,17 @@
         "variation": 0.0
       },
       "bosses": [
-        "apotheosis:overworld/husk"
+        "apotheosis:overworld/husk",
+        "apotheosis:overworld/skeleton",
+        "apotheosis:overworld/stray",
+        "apotheosis:overworld/vindicator",
+        "apotheosis:overworld/witch",
+        "apotheosis:overworld/zombie"
       ],
       "healthScale": 1.0,
       "maxLevel": 0,
       "maxTraitCount": -1,
       "traits": [
-        {
-          "cap": false,
-          "free": 0,
-          "min": 1,
-          "trait": "l2hostility:adaptive"
-        }
       ],
       "rarity_requirements": [
         {
