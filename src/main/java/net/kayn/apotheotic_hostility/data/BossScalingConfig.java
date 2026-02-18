@@ -1,127 +1,95 @@
 package net.kayn.apotheotic_hostility.data;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.xkmc.l2hostility.content.config.EntityConfig;
 import dev.xkmc.l2hostility.content.config.WorldDifficultyConfig;
 import dev.xkmc.l2hostility.content.traits.base.MobTrait;
 import dev.xkmc.l2hostility.init.registrate.LHTraits;
+import net.kayn.apotheotic_hostility.ApotheoticHostility;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class BossScalingConfig {
 
-    public static final Codec<BossScalingConfig> CODEC = RecordCodecBuilder.create(inst -> inst.group(BossScalingEntry.CODEC.listOf().fieldOf("list").forGetter(c -> c.list)).apply(inst, BossScalingConfig::new));
-
-    private final List<BossScalingEntry> list;
-
-    public BossScalingConfig(List<BossScalingEntry> list) {
-        this.list = list;
-    }
-
-    public List<BossScalingEntry> getList() {
-        return list;
-    }
+    public List<BossScalingEntry> list;
 
     public static class BossScalingEntry {
+        public double attackScale, healthScale;
 
-        public static final Codec<BossScalingEntry> CODEC = RecordCodecBuilder.create(inst -> inst.group(Codec.DOUBLE.fieldOf("attackScale").forGetter(e -> e.attackScale), ResourceLocation.CODEC.listOf().fieldOf("blacklist").forGetter(e -> e.blacklist), DifficultyConfig.CODEC.fieldOf("difficulty").forGetter(e -> e.difficulty), ResourceLocation.CODEC.listOf().fieldOf("bosses").forGetter(e -> e.bosses), Codec.DOUBLE.fieldOf("healthScale").forGetter(e -> e.healthScale), Codec.INT.fieldOf("maxLevel").forGetter(e -> e.maxLevel), Codec.INT.fieldOf("maxTraitCount").forGetter(e -> e.maxTraitCount), Codec.INT.fieldOf("minSpawnLevel").forGetter(e -> e.minSpawnLevel), TraitEntry.CODEC.listOf().fieldOf("traits").forGetter(e -> e.traits)).apply(inst, BossScalingEntry::new));
+        public List<String> blacklist;
 
-        public final double attackScale;
-        public final List<ResourceLocation> blacklist;
-        public final DifficultyConfig difficulty;
-        public final List<ResourceLocation> bosses;
-        public final double healthScale;
-        public final int maxLevel;
-        public final int maxTraitCount;
-        public final int minSpawnLevel;
-        public final List<TraitEntry> traits;
+        public List<String> bosses;
 
-        public BossScalingEntry(double attackScale, List<ResourceLocation> blacklist, DifficultyConfig difficulty, List<ResourceLocation> bosses, double healthScale, int maxLevel, int maxTraitCount, int minSpawnLevel, List<TraitEntry> traits) {
-            this.attackScale = attackScale;
-            this.blacklist = blacklist;
-            this.difficulty = difficulty;
-            this.bosses = bosses;
-            this.healthScale = healthScale;
-            this.maxLevel = maxLevel;
-            this.maxTraitCount = maxTraitCount;
-            this.minSpawnLevel = minSpawnLevel;
-            this.traits = traits;
-        }
+        public DifficultyConfig difficulty;
+
+        public int maxLevel, maxTraitCount, minSpawnLevel;
+
+        public List<TraitEntry> traits;
 
         public EntityConfig.Config toEntityConfig() {
-            WorldDifficultyConfig.DifficultyConfig diffConfig = new WorldDifficultyConfig.DifficultyConfig(
-                    difficulty.min,
-                    difficulty.base,
-                    difficulty.variation,
-                    difficulty.scale,
-                    difficulty.applyChance,
-                    difficulty.traitChance,
-                    difficulty.suppression
-            );
+            WorldDifficultyConfig.DifficultyConfig diffConfig = new WorldDifficultyConfig.DifficultyConfig(difficulty.min, difficulty.base, difficulty.variation, difficulty.scale, difficulty.apply_chance, difficulty.trait_chance, difficulty.suppression);
 
             EntityConfig.Config config = new EntityConfig.Config(List.of(), diffConfig);
-
             config.minSpawnLevel = minSpawnLevel;
             config.maxLevel = maxLevel;
             config.maxTraitCount = maxTraitCount;
             config.healthScale = healthScale;
             config.attackScale = attackScale;
 
-            config.trait(traits.stream()
-                    .map(t -> EntityConfig.trait(LHTraits.TRAITS.get().getValue(t.trait), t.free, t.min))
-                    .filter(t -> t.trait() != null)
-                    .toList());
+            if (traits != null && !traits.isEmpty()) {
+                List<EntityConfig.TraitBase> resolved = traits.stream().map(t -> {
+                    if (t == null || t.trait == null) {
+                        ApotheoticHostility.LOGGER.warn("[BossScaling] null trait entry found in boss config");
+                        return null;
+                    }
+                    ResourceLocation rl;
+                    try {
+                        rl = new ResourceLocation(t.trait);
+                    } catch (Exception ex) {
+                        ApotheoticHostility.LOGGER.warn("[BossScaling] invalid trait resource location '{}'", t.trait);
+                        return null;
+                    }
+                    MobTrait traitObj = LHTraits.TRAITS.get().getValue(rl);
+                    if (traitObj == null) {
+                        ApotheoticHostility.LOGGER.warn("[BossScaling] trait id {} did not resolve to a MobTrait", rl);
+                        return null;
+                    }
+                    return EntityConfig.trait(traitObj, t.free, t.min);
+                }).filter(Objects::nonNull).collect(Collectors.toList());
 
-            config.blacklist(blacklist.stream()
-                    .map(id -> LHTraits.TRAITS.get().getValue(id))
-                    .filter(java.util.Objects::nonNull)
-                    .toArray(MobTrait[]::new));
+                if (!resolved.isEmpty()) config.trait(resolved);
+            }
+
+            if (blacklist != null && !blacklist.isEmpty()) {
+                MobTrait[] resolvedBlack = blacklist.stream().map(s -> {
+                    try {
+                        return LHTraits.TRAITS.get().getValue(new ResourceLocation(s));
+                    } catch (Exception ex) {
+                        ApotheoticHostility.LOGGER.warn("[BossScaling] invalid blacklist id '{}'", s);
+                        return null;
+                    }
+                }).filter(Objects::nonNull).toArray(MobTrait[]::new);
+
+                if (resolvedBlack.length > 0) config.blacklist(resolvedBlack);
+            }
 
             return config;
         }
     }
 
+
     public static class DifficultyConfig {
-
-        public static final Codec<DifficultyConfig> CODEC = RecordCodecBuilder.create(inst -> inst.group(Codec.DOUBLE.fieldOf("apply_chance").forGetter(d -> d.applyChance), Codec.INT.fieldOf("base").forGetter(d -> d.base), Codec.INT.fieldOf("min").forGetter(d -> d.min), Codec.DOUBLE.fieldOf("scale").forGetter(d -> d.scale), Codec.DOUBLE.fieldOf("suppression").forGetter(d -> d.suppression), Codec.DOUBLE.fieldOf("trait_chance").forGetter(d -> d.traitChance), Codec.DOUBLE.fieldOf("variation").forGetter(d -> d.variation)).apply(inst, DifficultyConfig::new));
-
-        public final double applyChance;
-        public final int base;
-        public final int min;
-        public final double scale;
-        public final double suppression;
-        public final double traitChance;
-        public final double variation;
-
-        public DifficultyConfig(double applyChance, int base, int min, double scale, double suppression, double traitChance, double variation) {
-            this.applyChance = applyChance;
-            this.base = base;
-            this.min = min;
-            this.scale = scale;
-            this.suppression = suppression;
-            this.traitChance = traitChance;
-            this.variation = variation;
-        }
+        public double apply_chance, scale, suppression, trait_chance, variation;
+        public int base, min;
     }
 
     public static class TraitEntry {
+        public boolean cap;
 
-        public static final Codec<TraitEntry> CODEC = RecordCodecBuilder.create(inst -> inst.group(Codec.BOOL.fieldOf("cap").forGetter(t -> t.cap), Codec.INT.fieldOf("free").forGetter(t -> t.free), Codec.INT.fieldOf("min").forGetter(t -> t.min), ResourceLocation.CODEC.fieldOf("trait").forGetter(t -> t.trait)).apply(inst, TraitEntry::new));
+        public int free, min;
 
-        public final boolean cap;
-        public final int free;
-        public final int min;
-        public final ResourceLocation trait;
-
-        public TraitEntry(boolean cap, int free, int min, ResourceLocation trait) {
-            this.cap = cap;
-            this.free = free;
-            this.min = min;
-            this.trait = trait;
-        }
+        public String trait;
     }
 }

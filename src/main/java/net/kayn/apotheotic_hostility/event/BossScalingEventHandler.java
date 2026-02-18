@@ -15,42 +15,26 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class BossScalingEventHandler {
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SubscribeEvent(priority = EventPriority.LOW)
     public static void onBossJoinLevel(EntityJoinLevelEvent event) {
         if (event.getLevel().isClientSide()) return;
-        if (!(event.getEntity() instanceof Mob)) return;
-        Mob mob = (Mob) event.getEntity();
-
+        if (!(event.getEntity() instanceof Mob mob)) return;
         if (!mob.getPersistentData().getBoolean("apoth.boss")) return;
 
-        ResourceLocation bossId = null;
-        for (ResourceLocation key : BossRegistry.INSTANCE.getKeys()) {
-            var apothBoss = BossRegistry.INSTANCE.getValue(key);
-            if (apothBoss != null && apothBoss.getEntity() == mob.getType()) {
-                bossId = key;
-                break;
+        if (!MobTraitCap.HOLDER.isProper(mob)) return;
+
+        MobTraitCap cap = MobTraitCap.HOLDER.get(mob);
+
+        if (!cap.isInitialized()) {
+            var opt = ChunkDifficulty.at(mob.level(), mob.blockPosition());
+            if (opt.isPresent()) {
+                cap.init(mob.level(), mob, opt.get());
+                cap.dropRate = LHConfig.COMMON.dropRateFromSpawner.get();
             }
         }
 
-        if (bossId == null) return;
-
-        BossScalingManager manager = BossScalingManager.getInstance();
-        if (!manager.hasBossConfig(bossId)) return;
-
-        initMob(mob, manager.getEntryForBoss(bossId).toEntityConfig());
-    }
-
-    private static void initMob(Mob mob, dev.xkmc.l2hostility.content.config.EntityConfig.Config config) {
-        if (MobTraitCap.HOLDER.isProper(mob)) {
-            MobTraitCap cap = MobTraitCap.HOLDER.get(mob);
-            if (!mob.level().isClientSide() && !cap.isInitialized()) {
-                var opt = ChunkDifficulty.at(mob.level(), mob.blockPosition());
-                if (opt.isPresent()) {
-                    cap.setConfigCache(config);
-                    cap.init(mob.level(), mob, opt.get());
-                    cap.dropRate = LHConfig.COMMON.dropRateFromSpawner.get();
-                }
-            }
+        if (cap.shouldDiscard(mob)) {
+            event.setCanceled(true);
         }
     }
 }
