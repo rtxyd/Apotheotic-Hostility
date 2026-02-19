@@ -18,13 +18,11 @@ public class BossEventsMixin {
             remap = false
     )
     private static void checkHostilityDiscard(LevelAccessor world, Mob entity, double playerDist, CallbackInfoReturnable<Boolean> cir) {
-        // Check if the entity (or its mount) was marked for discard by our ApothBossMixin
         boolean shouldDiscard = entity.getSelfAndPassengers().anyMatch(e ->
                 e.getPersistentData().getBoolean("apoth_hostility.discard")
         );
 
         if (shouldDiscard) {
-            // Returning false skips `addFreshEntityWithPassengers` AND skips the chat announcement cleanly.
             cir.setReturnValue(false);
         }
     }
