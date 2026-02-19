@@ -1,0 +1,14 @@
+{
+  "type": "apotheosis:spawner_modifier",
+  "mainhand": {
+    "item": "l2hostility:hostility_essence"
+  },
+  "stat_changes": [
+    {
+      "id": "apotheotic_hostility:level",
+      "value": 10,
+      "min": 0,
+      "max": 1000
+    }
+  ]
+}

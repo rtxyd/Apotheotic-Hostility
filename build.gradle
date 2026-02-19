@@ -112,7 +112,7 @@ dependencies {
     implementation fg.deobf("dev.xkmc.l2hostility:l2hostility:2.5.14")
 
     // Dev Env Mods
-    implementation fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
+    implementation fg.deobf("curse.maven:jei-238222:7391695")
     implementation fg.deobf("curse.maven:jade-324717:${jade_file_id}")
     implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}")
     runtimeOnly fg.deobf("curse.maven:mmmmmmmmmmmm-225738:6608233")

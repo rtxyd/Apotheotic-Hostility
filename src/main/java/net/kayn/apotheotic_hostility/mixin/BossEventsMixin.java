@@ -41,7 +41,6 @@ public class BossEventsMixin {
         try {
             if (boss == null) return;
 
-            // Find boss ID
             ResourceLocation bossId = null;
             for (ResourceLocation key : BossRegistry.INSTANCE.getKeys()) {
                 if (BossRegistry.INSTANCE.getValue(key) == item) {
@@ -58,7 +57,6 @@ public class BossEventsMixin {
             var reqs = entry.getRarityRequirementMap();
             if (reqs == null || reqs.isEmpty()) return;
 
-            // Check the actual rarity assigned to the boss
             String rarityStr = boss.getPersistentData().getString("apoth.rarity");
             if (rarityStr == null || rarityStr.isEmpty()) return;
 
@@ -67,7 +65,6 @@ public class BossEventsMixin {
                 Integer requiredLevel = reqs.get(rarityId);
 
                 if (requiredLevel != null) {
-                    // This rarity has a requirement, check boss's actual L2H level
                     if (!dev.xkmc.l2hostility.content.capability.mob.MobTraitCap.HOLDER.isProper(boss)) return;
                     var cap = dev.xkmc.l2hostility.content.capability.mob.MobTraitCap.HOLDER.get(boss);
 
@@ -78,8 +75,8 @@ public class BossEventsMixin {
                                     "[BossGuard] Preventing {} announcement - rarity {} requires level {}, got {}",
                                     bossId, rarityId, requiredLevel, actualLevel
                             );
-                            boss.discard(); // Clean up the entity
-                            ci.cancel(); // Stop the method before announcement
+                            boss.discard();
+                            ci.cancel();
                             return;
                         }
                     }
