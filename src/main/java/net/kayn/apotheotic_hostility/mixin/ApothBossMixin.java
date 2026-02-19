@@ -13,8 +13,8 @@ import net.kayn.apotheotic_hostility.data.BossScalingManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -53,7 +53,7 @@ public class ApothBossMixin {
             remap = false
     )
     private void beforeInitBoss(ServerLevelAccessor world, BlockPos pos, net.minecraft.util.RandomSource random, float luck,
-                                dev.shadowsoffire.apotheosis.adventure.loot.LootRarity rarity,
+                                LootRarity rarity,
                                 CallbackInfoReturnable<Mob> cir,
                                 CompoundTag fakeNbt, Mob entity) {
         try {
@@ -125,6 +125,13 @@ public class ApothBossMixin {
 
             if (chosen.isEmpty()) {
                 ApotheoticHostility.LOGGER.info("Discarding boss {} (level {}) - no eligible rarity", bossId, lvl);
+
+                // FIX: Mark entity to be discarded safely later in BossEventsMixin
+                entity.getPersistentData().putBoolean("apoth_hostility.discard", true);
+
+                // FIX: Force return and abort the rest of the target method so Mounts aren't generated!
+                cir.setReturnValue(entity);
+                cir.cancel();
                 return;
             }
 
