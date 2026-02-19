@@ -14,5 +14,6 @@ public class GemLootModifierMixin {
     @Inject(method = "doApply", at = @At("HEAD"), cancellable = true)
     private void cancelGemInjection(ObjectArrayList<ItemStack> generatedLoot, LootContext context, CallbackInfoReturnable<ObjectArrayList<ItemStack>> cir) {
         cir.setReturnValue(generatedLoot);
+        cir.cancel();
     }
 }
