@@ -116,6 +116,7 @@ dependencies {
     implementation fg.deobf("curse.maven:jade-324717:${jade_file_id}")
     implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}")
     runtimeOnly fg.deobf("curse.maven:mmmmmmmmmmmm-225738:6608233")
+    runtimeOnly fg.deobf("curse.maven:fallen-gems-affixes-1286177:7634353")
 
     // Libs
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
@@ -124,6 +125,7 @@ dependencies {
     runtimeOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:${caelus_version}")
     runtimeOnly fg.deobf("curse.maven:patchouli-306770:6164575")
     runtimeOnly fg.deobf("curse.maven:selene-499980:6611244")
+    runtimeOnly fg.deobf("curse.maven:fallen-lib-1404737:7421977")
 }
 
 mixin {
@@ -132,17 +134,15 @@ mixin {
 }
 
 tasks.named('processResources', ProcessResources).configure {
-    def replaceProperties = [
-            modGroup    : modGroup,
-            modid       : modid,
-            version     : version,
-            modName     : modName,
-            author      : author,
-            desc        : desc,
-            mcVersion   : mc_version,
-            javaVersion : javaVersion,
-            forgeVersion: forge_version
-    ]
+    def replaceProperties = [modGroup    : modGroup,
+                             modid       : modid,
+                             version     : version,
+                             modName     : modName,
+                             author      : author,
+                             desc        : desc,
+                             mcVersion   : mc_version,
+                             javaVersion : javaVersion,
+                             forgeVersion: forge_version]
     inputs.properties replaceProperties
     filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
         expand replaceProperties
@@ -157,16 +157,14 @@ tasks.named('jarJar') {
 
 tasks.named('jar', Jar).configure {
     manifest {
-        attributes([
-                "Specification-Title"     : project.fileName,
-                "Specification-Vendor"    : project.author,
-                "Specification-Version"   : "1.0",
-                "Implementation-Title"    : project.fileName,
-                "Implementation-Version"  : project.version,
-                "Implementation-Vendor"   : project.author,
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs"            : "${modid}.mixins.json"
-        ])
+        attributes(["Specification-Title"     : project.fileName,
+                    "Specification-Vendor"    : project.author,
+                    "Specification-Version"   : "1.0",
+                    "Implementation-Title"    : project.fileName,
+                    "Implementation-Version"  : project.version,
+                    "Implementation-Vendor"   : project.author,
+                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                    "MixinConfigs"            : "${modid}.mixins.json"])
     }
     finalizedBy 'reobfJar', 'jarJar'
 }

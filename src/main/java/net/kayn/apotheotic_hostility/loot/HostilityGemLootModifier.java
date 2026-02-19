@@ -55,23 +55,25 @@ public class HostilityGemLootModifier extends LootModifier {
         if (context.getRandom().nextDouble() < dropRule.getChance()) {
             try {
                 LootRarity targetRarity = RarityRegistry.INSTANCE.getValue(dropRule.getTier());
-
                 if (targetRarity == null) {
                     return generatedLoot;
                 }
 
-                List<Gem> validGems = GemRegistry.INSTANCE.getValues().stream().filter(gem -> {
+                Gem selectedGem = GemRegistry.INSTANCE.getRandomItem(
+                        context.getRandom(),
+                        0.0f,
+                        gem -> {
+                            boolean withinRange = targetRarity.isAtLeast(gem.getMinRarity())
+                                    && targetRarity.isAtMost(gem.getMaxRarity());
+                            if (!withinRange) return false;
 
-                    boolean withinRange = targetRarity.isAtLeast(gem.getMinRarity()) && targetRarity.isAtMost(gem.getMaxRarity());
-                    if (!withinRange) return false;
+                            return gem.getBonuses().stream().anyMatch(bonus -> bonus.supports(targetRarity));
+                        }
+                );
 
-                    return gem.getBonuses().stream().anyMatch(bonus -> bonus.supports(targetRarity));
-                }).toList();
-
-                if (validGems.isEmpty()) {
+                if (selectedGem == null) {
                     return generatedLoot;
                 }
-                Gem selectedGem = validGems.get(context.getRandom().nextInt(validGems.size()));
 
                 ItemStack gemStack = GemRegistry.createGemStack(selectedGem, targetRarity);
 
