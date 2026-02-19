@@ -15,12 +15,20 @@ public abstract class ApothSpawnerTileMixin implements IL2HSpawner {
     @Unique
     private int apotheotic_hostility$level = 0;
 
-    @Inject(method = "saveAdditional", at = @At("RETURN"), remap = false)
+    @Inject(
+            method = "saveAdditional(Lnet/minecraft/nbt/CompoundTag;)V",
+            at = @At("TAIL"),
+            remap = true
+    )
     private void saveL2HLevel(CompoundTag tag, CallbackInfo ci) {
         tag.putInt("apotheotic_hostility:level", this.apotheotic_hostility$level);
     }
 
-    @Inject(method = "load", at = @At("RETURN"), remap = false)
+    @Inject(
+            method = "load(Lnet/minecraft/nbt/CompoundTag;)V",
+            at = @At("TAIL"),
+            remap = true
+    )
     private void loadL2HLevel(CompoundTag tag, CallbackInfo ci) {
         this.apotheotic_hostility$level = tag.getInt("apotheotic_hostility:level");
     }

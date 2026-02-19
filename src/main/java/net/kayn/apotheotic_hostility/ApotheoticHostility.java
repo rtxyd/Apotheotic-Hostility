@@ -27,10 +27,10 @@ public class ApotheoticHostility {
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
-        HostilitySpawnerStats.register();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        HostilitySpawnerStats.register();
         LOGGER.info("Apotheotic Hostility common setup complete");
     }
 

@@ -25,7 +25,7 @@ public abstract class SpawnerLogicExtMixin {
                     value = "INVOKE",
                     target = "Lnet/minecraft/server/level/ServerLevel;tryAddFreshEntityWithPassengers(Lnet/minecraft/world/entity/Entity;)Z"
             ),
-            remap = false
+            remap = true
     )
     private boolean apotheotic_hostility$onTryAddFreshEntityWithPassengers(ServerLevel serverLevel, Entity entity) {
         boolean added = serverLevel.tryAddFreshEntityWithPassengers(entity);
@@ -33,8 +33,7 @@ public abstract class SpawnerLogicExtMixin {
         if (added && entity instanceof Mob mob) {
             try {
                 var be = getSpawnerBlockEntity();
-                if (!(be instanceof ApothSpawnerTile)) return added;
-                ApothSpawnerTile tile = (ApothSpawnerTile) be;
+                if (!(be instanceof ApothSpawnerTile tile)) return added;
 
                 if (!(tile instanceof IL2HSpawner l2hSpawner)) return added;
 
@@ -49,23 +48,16 @@ public abstract class SpawnerLogicExtMixin {
                 var cap = MobTraitCap.HOLDER.get(mob);
 
                 if (!cap.isInitialized()) {
-                    try {
-                        cap.init(serverLevel, mob, optChunk.get());
-                    } catch (Throwable t) {
-                        ApotheoticHostility.LOGGER.warn("[SpawnerLogicExtMixin] cap.init failed for {}: {}", mob.getType(), t.getMessage());
-                        return added;
-                    }
+                    cap.init(serverLevel, mob, optChunk.get());
                 }
 
-                try {
-                    cap.reinit(mob, spawnerLevel, false);
-                    cap.dropRate = dev.xkmc.l2hostility.init.data.LHConfig.COMMON.dropRateFromSpawner.get();
-                    ApotheoticHostility.LOGGER.debug("[SpawnerLogicExtMixin] Applied L2H level {} to spawner mob {}", spawnerLevel, mob.getType());
-                } catch (Throwable t) {
-                    ApotheoticHostility.LOGGER.error("[SpawnerLogicExtMixin] error reinitializing cap for spawner mob {}", mob.getType(), t);
-                }
+                cap.reinit(mob, spawnerLevel, false);
+                cap.dropRate = dev.xkmc.l2hostility.init.data.LHConfig.COMMON.dropRateFromSpawner.get();
+
+                ApotheoticHostility.LOGGER.info("[Spawner] Applied level {} to {}", spawnerLevel, mob.getType());
+
             } catch (Throwable t) {
-                ApotheoticHostility.LOGGER.error("[SpawnerLogicExtMixin] unexpected error while post-processing spawned entity", t);
+                ApotheoticHostility.LOGGER.error("[Spawner] Failed to apply level", t);
             }
         }
 
