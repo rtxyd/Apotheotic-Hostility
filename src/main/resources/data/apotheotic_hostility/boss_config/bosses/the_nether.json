@@ -1,0 +1,41 @@
+{
+  "list": [
+    {
+      "attackScale": 1.0,
+      "blacklist": [
+      ],
+      "difficulty": {
+        "apply_chance": 1.0,
+        "base": 0,
+        "min": 0,
+        "scale": 0.0,
+        "suppression": 0.0,
+        "trait_chance": 1.0,
+        "variation": 0.0
+      },
+      "bosses": [
+        "apotheosis:the_nether/blaze",
+        "apotheosis:the_nether/piglin",
+        "apotheosis:the_nether/piglin_brute",
+        "apotheosis:the_nether/wither_skeleton",
+        "apotheosis:the_nether/zoglin",
+        "apotheosis:the_nether/zombified_piglin"
+      ],
+      "healthScale": 1.0,
+      "maxLevel": 0,
+      "maxTraitCount": -1,
+      "traits": [
+      ],
+      "rarity_requirements": [
+        {
+          "rarity": "apotheosis:rare",
+          "minSpawnLevel": 200
+        },
+        {
+          "rarity": "apotheosis:epic",
+          "minSpawnLevel": 300
+        }
+      ]
+    }
+  ]
+}

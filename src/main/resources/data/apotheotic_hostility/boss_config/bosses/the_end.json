@@ -1,0 +1,40 @@
+{
+  "list": [
+    {
+      "attackScale": 1.0,
+      "blacklist": [
+      ],
+      "difficulty": {
+        "apply_chance": 1.0,
+        "base": 0,
+        "min": 0,
+        "scale": 0.0,
+        "suppression": 0.0,
+        "trait_chance": 1.0,
+        "variation": 0.0
+      },
+      "bosses": [
+        "apotheosis:the_end/enderman",
+        "apotheosis:the_end/endermite",
+        "apotheosis:the_end/evoker",
+        "apotheosis:the_end/phantom",
+        "apotheosis:the_end/shulker"
+      ],
+      "healthScale": 1.0,
+      "maxLevel": 0,
+      "maxTraitCount": -1,
+      "traits": [
+      ],
+      "rarity_requirements": [
+        {
+          "rarity": "apotheosis:epic",
+          "minSpawnLevel": 300
+        },
+        {
+          "rarity": "apotheosis:mythic",
+          "minSpawnLevel": 400
+        }
+      ]
+    }
+  ]
+}
