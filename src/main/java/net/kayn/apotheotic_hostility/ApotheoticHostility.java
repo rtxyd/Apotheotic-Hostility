@@ -1,6 +1,7 @@
 package net.kayn.apotheotic_hostility;
 
 import net.kayn.apotheotic_hostility.init.ModLootModifiers;
+import net.kayn.apotheotic_hostility.spawner.HostilitySpawnerStats;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -26,6 +27,7 @@ public class ApotheoticHostility {
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
+        HostilitySpawnerStats.register();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

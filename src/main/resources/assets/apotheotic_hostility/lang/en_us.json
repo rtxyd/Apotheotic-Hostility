@@ -1,0 +1,5 @@
+{
+  "stat.apotheotic_hostility.level": "Level",
+  "stat.apotheosis.apotheotic_hostility:level": "Level",
+  "stat.apotheosis.apotheotic_hostility:level.desc": "Controls the level of mobs spawned by the spawner"
+}
