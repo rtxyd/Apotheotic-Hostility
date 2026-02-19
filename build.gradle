@@ -117,6 +117,7 @@ dependencies {
     implementation fg.deobf("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}")
     runtimeOnly fg.deobf("curse.maven:mmmmmmmmmmmm-225738:6608233")
     runtimeOnly fg.deobf("curse.maven:fallen-gems-affixes-1286177:7634353")
+    runtimeOnly fg.deobf("curse.maven:lendercataclysm-551586:6906993")
 
     // Libs
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
@@ -126,6 +127,7 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:patchouli-306770:6164575")
     runtimeOnly fg.deobf("curse.maven:selene-499980:6611244")
     runtimeOnly fg.deobf("curse.maven:fallen-lib-1404737:7421977")
+    runtimeOnly fg.deobf("curse.maven:lionfish-api-1001614:5922047")
 }
 
 mixin {
