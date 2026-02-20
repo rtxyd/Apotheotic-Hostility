@@ -126,10 +126,8 @@ public class ApothBossMixin {
             if (chosen.isEmpty()) {
                 ApotheoticHostility.LOGGER.info("Discarding boss {} (level {}) - no eligible rarity", bossId, lvl);
 
-                // FIX: Mark entity to be discarded safely later in BossEventsMixin
                 entity.getPersistentData().putBoolean("apoth_hostility.discard", true);
 
-                // FIX: Force return and abort the rest of the target method so Mounts aren't generated!
                 cir.setReturnValue(entity);
                 cir.cancel();
                 return;
