@@ -1,5 +1,9 @@
 {
   "stat.apotheotic_hostility.level": "Level",
   "stat.apotheosis.apotheotic_hostility:level": "Level",
-  "stat.apotheosis.apotheotic_hostility:level.desc": "Controls the level of mobs spawned by the spawner"
+  "stat.apotheosis.apotheotic_hostility:level.desc": "Controls the level of mobs spawned by the spawner",
+
+  "affix.apotheotic_hostility.difficulty_level.desc": "Increases your difficulty level by %s",
+  "affix.apotheotic_hostility:difficulty_level": "Harrowing",
+  "affix.apotheotic_hostility:difficulty_level.suffix": "of Misery"
 }

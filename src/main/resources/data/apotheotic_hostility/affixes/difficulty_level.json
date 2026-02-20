@@ -1,0 +1,45 @@
+{
+  "type": "apotheotic_hostility:difficulty_level",
+  "values": {
+    "rare": {
+      "bonus": {
+        "min": 15,
+        "steps": 5,
+        "step": 3
+      }
+    },
+    "epic": {
+      "bonus": {
+        "min": 25,
+        "steps": 5,
+        "step": 4
+      }
+    },
+    "mythic": {
+      "bonus": {
+        "min": 35,
+        "steps": 5,
+        "step": 5
+      }
+    },
+    "ancient": {
+      "bonus": {
+        "min": 45,
+        "steps": 5,
+        "step": 6
+      }
+    }
+  },
+  "types": [
+    "sword",
+    "heavy_weapon",
+    "helmet",
+    "chestplate",
+    "leggings",
+    "boots",
+    "bow",
+    "crossbow",
+    "trident",
+    "shield"
+  ]
+}
