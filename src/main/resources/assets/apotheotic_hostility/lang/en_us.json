@@ -5,5 +5,16 @@
 
   "affix.apotheotic_hostility.difficulty_level.desc": "Increases your difficulty level by %s",
   "affix.apotheotic_hostility:difficulty_level": "Harrowing",
-  "affix.apotheotic_hostility:difficulty_level.suffix": "of Misery"
+  "affix.apotheotic_hostility:difficulty_level.suffix": "of Misery",
+
+  "gem_bonus.apotheotic_hostility.ragnarok_resist.desc": "This item cannot be sealed by Ragnarok",
+  "item.apotheosis.gem.apotheotic_hostility:ragnarok_resist": "Gem of the Eternal",
+  "gem_class.universal": "Universal",
+
+  "item.apotheotic_hostility.gem_looting_charm": "Transcendent Looting Charm",
+
+  "apotheotic_hostility.jei.min_traits": "Requires mob with at least %s traits",
+  "apotheotic_hostility.jei.min_legendary_traits": "Requires mob with at least %s legendary traits",
+
+  "itemGroup.apotheotic_hostility.main": "Apotheotic Hostility"
 }

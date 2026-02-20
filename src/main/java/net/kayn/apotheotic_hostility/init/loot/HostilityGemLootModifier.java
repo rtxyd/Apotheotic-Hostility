@@ -1,4 +1,4 @@
-package net.kayn.apotheotic_hostility.loot;
+package net.kayn.apotheotic_hostility.init.loot;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -10,6 +10,7 @@ import dev.xkmc.l2hostility.content.capability.mob.MobTraitCap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.kayn.apotheotic_hostility.data.GemDropRuleManager;
 import net.kayn.apotheotic_hostility.data.GemDropRules;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -20,7 +21,7 @@ import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
 
 import javax.annotation.Nonnull;
-import java.util.List;
+import java.util.Set;
 
 public class HostilityGemLootModifier extends LootModifier {
 
@@ -59,10 +60,18 @@ public class HostilityGemLootModifier extends LootModifier {
                     return generatedLoot;
                 }
 
+                Set<ResourceLocation> excludedGems = GemTraitLootModifier.INSTANCES.stream()
+                        .map(m -> new ResourceLocation(m.gem))
+                        .collect(java.util.stream.Collectors.toSet());
+
                 Gem selectedGem = GemRegistry.INSTANCE.getRandomItem(
                         context.getRandom(),
                         0.0f,
                         gem -> {
+                            ResourceLocation gemId = GemRegistry.INSTANCE.getKey(gem);
+
+                            if (gemId != null && excludedGems.contains(gemId)) return false;
+
                             boolean withinRange = targetRarity.isAtLeast(gem.getMinRarity())
                                     && targetRarity.isAtMost(gem.getMaxRarity());
                             if (!withinRange) return false;

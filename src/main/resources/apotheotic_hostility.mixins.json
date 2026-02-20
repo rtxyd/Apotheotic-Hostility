@@ -11,6 +11,8 @@
     "ApothSpawnerTileMixin",
     "SpawnerLogicExtMixin",
     "ItemPopulatorMixin",
+    "RagnarokTraitMixin",
+    "JEICompatMixin"
 
   ],
   "client": [

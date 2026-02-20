@@ -2,7 +2,8 @@ package net.kayn.apotheotic_hostility.init;
 
 import com.mojang.serialization.Codec;
 import net.kayn.apotheotic_hostility.ApotheoticHostility;
-import net.kayn.apotheotic_hostility.loot.HostilityGemLootModifier;
+import net.kayn.apotheotic_hostility.init.loot.GemTraitLootModifier;
+import net.kayn.apotheotic_hostility.init.loot.HostilityGemLootModifier;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -14,4 +15,7 @@ public class ModLootModifiers {
 
     public static final RegistryObject<Codec<HostilityGemLootModifier>> HOSTILITY_GEM_MODIFIER =
             LOOT_MODIFIERS.register("hostility_gem_modifier", () -> HostilityGemLootModifier.CODEC);
+
+    public static final RegistryObject<Codec<GemTraitLootModifier>> GEM_TRAIT_LOOT =
+            LOOT_MODIFIERS.register("gem_trait_loot", GemTraitLootModifier.CODEC);
 }

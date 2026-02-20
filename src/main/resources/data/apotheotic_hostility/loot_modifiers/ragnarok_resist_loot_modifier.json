@@ -1,0 +1,22 @@
+{
+  "type": "apotheotic_hostility:gem_trait_loot",
+  "gem": "apotheotic_hostility:ragnarok_resist",
+  "rarity": "ancient",
+  "chance": 0.05,
+  "min_traits": 0,
+  "min_legendary_traits": 5,
+  "conditions": [
+    {
+      "condition": "minecraft:killed_by_player"
+    },
+    {
+      "condition": "l2hostility:mob_level",
+      "minLevel": 500,
+      "maxLevel": 0
+    },
+    {
+      "condition": "l2hostility:player_has_item",
+      "item": "apotheotic_hostility:gem_looting_charm"
+    }
+  ]
+}

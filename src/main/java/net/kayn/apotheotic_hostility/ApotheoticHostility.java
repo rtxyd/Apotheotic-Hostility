@@ -2,6 +2,8 @@ package net.kayn.apotheotic_hostility;
 
 import net.kayn.apotheotic_hostility.event.InitNewCodecs;
 import net.kayn.apotheotic_hostility.init.ModLootModifiers;
+import net.kayn.apotheotic_hostility.registry.ModCreativeTabs;
+import net.kayn.apotheotic_hostility.registry.ModItems;
 import net.kayn.apotheotic_hostility.spawner.HostilitySpawnerStats;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -27,6 +29,9 @@ public class ApotheoticHostility {
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(InitNewCodecs::init);
+
+        ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
+        ModItems.ITEMS.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
     }

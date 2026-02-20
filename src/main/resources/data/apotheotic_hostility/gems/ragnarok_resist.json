@@ -1,0 +1,18 @@
+{
+  "weight": 100,
+  "quality": 0,
+  "unique": true,
+  "min_rarity": "ancient",
+  "bonuses": [
+    {
+      "type": "apotheotic_hostility:ragnarok_resist",
+      "gem_class": {
+        "key": "universal",
+        "types": [
+          "sword", "heavy_weapon", "helmet", "chestplate",
+          "leggings", "boots", "bow", "crossbow", "trident", "shield"
+        ]
+      }
+    }
+  ]
+}
