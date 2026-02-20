@@ -9,7 +9,8 @@
     "BossEventsMixin",
     "GemLootModifierMixin",
     "ApothSpawnerTileMixin",
-    "SpawnerLogicExtMixin"
+    "SpawnerLogicExtMixin",
+    "ItemPopulatorMixin",
 
   ],
   "client": [

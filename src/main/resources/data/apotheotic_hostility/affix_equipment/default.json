@@ -1,0 +1,40 @@
+{
+  "affix_equipment": [
+    {
+      "min_level": 0,
+      "rarity": "apotheosis:common",
+      "chance": 0.15
+    },
+    {
+      "min_level": 100,
+      "rarity": "apotheosis:uncommon",
+      "chance": 0.14
+    },
+    {
+      "min_level": 200,
+      "rarity": "apotheosis:rare",
+      "chance": 0.13
+    },
+    {
+      "min_level": 300,
+      "rarity": "apotheosis:epic",
+      "chance": 0.12
+    },
+    {
+      "min_level": 400,
+      "rarity": "apotheosis:mythic",
+      "chance": 0.11
+    },
+    {
+      "min_level": 500,
+      "rarity": "apotheosis:ancient",
+      "chance": 0.10,
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "ancient_reforging"
+        }
+      ]
+    }
+  ]
+}
