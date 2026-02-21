@@ -9,7 +9,11 @@
 
   "gem_bonus.apotheotic_hostility.ragnarok_resist.desc": "This item cannot be sealed by Ragnarok",
   "item.apotheosis.gem.apotheotic_hostility:ragnarok_resist": "Gem of the Eternal",
+
   "gem_class.universal": "Universal",
+
+  "gem_bonus.apotheotic_hostility.dispell_resist.desc": "This item cannot have its enchantments disabled by Dispell",
+  "item.apotheosis.gem.apotheotic_hostility:dispell_resist": "Gem of the Unsilenced",
 
   "item.apotheotic_hostility.gem_looting_charm": "Transcendent Looting Charm",
 

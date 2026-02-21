@@ -1,0 +1,30 @@
+{
+  "type": "apotheotic_hostility:gem_trait_loot",
+  "gem": "apotheotic_hostility:dispell_resist",
+  "rarity": "ancient",
+  "chance": 0,
+  "rankBonus": 0.025,
+  "trait": "l2hostility:dispell",
+  "min_traits": 0,
+  "min_legendary_traits": 3,
+  "conditions": [
+    {
+      "condition": "minecraft:killed_by_player"
+    },
+    {
+      "condition": "l2hostility:mob_level",
+      "minLevel": 200,
+      "maxLevel": 0
+    },
+    {
+      "condition": "l2hostility:trait_and_level",
+      "maxLevel": 3,
+      "minLevel": 1,
+      "trait": "l2hostility:dispell"
+    },
+    {
+      "condition": "l2hostility:player_has_item",
+      "item": "apotheotic_hostility:gem_looting_charm"
+    }
+  ]
+}

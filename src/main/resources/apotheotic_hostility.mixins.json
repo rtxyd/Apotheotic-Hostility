@@ -12,7 +12,8 @@
     "SpawnerLogicExtMixin",
     "ItemPopulatorMixin",
     "RagnarokTraitMixin",
-    "JEICompatMixin"
+    "JEICompatMixin",
+    "DispellTraitMixin"
 
   ],
   "client": [

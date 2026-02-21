@@ -5,7 +5,7 @@
   "min_rarity": "ancient",
   "bonuses": [
     {
-      "type": "apotheotic_hostility:ragnarok_resist",
+      "type": "apotheotic_hostility:dispell_resist",
       "gem_class": {
         "key": "universal",
         "types": [

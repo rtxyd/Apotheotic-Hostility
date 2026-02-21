@@ -264,17 +264,22 @@ public class GemTraitLootModifier extends LootModifier implements ITraitLootReci
 
         // Drop chance
         if (trait != null) {
-            int lv = Math.max(1, trait.getMaxLevel());
-            list.add(Component.translatable("l2hostility.jei.loot_chance",
-                            Component.literal(Math.round((chance + rankBonus * lv) * 100) + "%")
-                                    .withStyle(ChatFormatting.AQUA),
-                            trait.getDesc().withStyle(ChatFormatting.GOLD),
-                            Component.literal(lv + "").withStyle(ChatFormatting.AQUA))
-                    .withStyle(ChatFormatting.GRAY));
-        } else {
-            list.add(Component.translatable("l2hostility.jei.no_trait",
-                            Component.literal(Math.round(chance * 100) + "%").withStyle(ChatFormatting.AQUA))
-                    .withStyle(ChatFormatting.GRAY));
+            int min = 1;
+            int max = trait.getMaxLevel();
+            for (var c : getConditions()) {
+                if (c instanceof TraitLootCondition cl && cl.trait == trait) {
+                    min = Math.max(min, cl.minLevel);
+                    max = Math.min(max, cl.maxLevel);
+                }
+            }
+            for (int lv = min; lv <= max; lv++) {
+                list.add(Component.translatable("l2hostility.jei.loot_chance",
+                                Component.literal(Math.round((chance + rankBonus * lv) * 100) + "%")
+                                        .withStyle(ChatFormatting.AQUA),
+                                trait.getDesc().withStyle(ChatFormatting.GOLD),
+                                Component.literal(lv + "").withStyle(ChatFormatting.AQUA))
+                        .withStyle(ChatFormatting.GRAY));
+            }
         }
 
         // Required curio
