@@ -1,0 +1,37 @@
+{
+  "type": "apotheosis:mob_effect",
+  "mob_effect": "l2complements:cleanse",
+  "target": "HURT_SELF",
+  "values": {
+    "epic": {
+      "duration": {
+        "min": 80,
+        "steps": 3,
+        "step": 20
+      },
+      "amplifier": 0,
+      "cooldown": 400
+    },
+    "mythic": {
+      "duration": {
+        "min": 80,
+        "steps": 3,
+        "step": 20
+      },
+      "amplifier": 0,
+      "cooldown": 400
+    },
+    "ancient": {
+      "duration": {
+        "min": 100,
+        "steps": 10,
+        "step": 40
+      },
+      "amplifier": 0,
+      "cooldown": 320
+    }
+  },
+  "types": [
+    "helmet"
+  ]
+}

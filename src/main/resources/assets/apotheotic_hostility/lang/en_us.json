@@ -20,5 +20,20 @@
   "apotheotic_hostility.jei.min_traits": "Requires mob with at least %s traits",
   "apotheotic_hostility.jei.min_legendary_traits": "Requires mob with at least %s legendary traits",
 
-  "itemGroup.apotheotic_hostility.main": "Apotheotic Hostility"
+  "itemGroup.apotheotic_hostility.main": "Apotheotic Hostility",
+
+  "affix.apotheotic_hostility:weapons/mob_effect/armor_reduce": "Sundering",
+  "affix.apotheotic_hostility:weapons/mob_effect/armor_reduce.suffix": "of Ruin",
+
+  "affix.apotheotic_hostility:weapons/mob_effect/curse": "Hexing",
+  "affix.apotheotic_hostility:weapons/mob_effect/curse.suffix": "of the Witch",
+
+  "affix.apotheotic_hostility:weapons/mob_effect/frozen": "Glacial",
+  "affix.apotheotic_hostility:weapons/mob_effect/frozen.suffix": "of Permafrost",
+
+  "affix.apotheotic_hostility:armor/mob_effect/cleanse": "Purifying",
+  "affix.apotheotic_hostility:armor/mob_effect/cleanse.suffix": "of Absolution",
+
+  "affix.apotheotic_hostility:armor/mob_effect/soul_burner": "Scorching",
+  "affix.apotheotic_hostility:armor/mob_effect/soul_burner.suffix": "of the Pyre"
 }

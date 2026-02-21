@@ -3,7 +3,6 @@
   "entries": [
     "apotheotic_hostility:hostility_gem_modifier",
     "apotheotic_hostility:ragnarok_resist_loot_modifier",
-    "apotheotic_hostility:gem_trait_loot",
     "apotheotic_hostility:dispell_resist_loot_modifier"
   ]
 }
