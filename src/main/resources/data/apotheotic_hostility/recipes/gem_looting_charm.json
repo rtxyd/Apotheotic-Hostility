@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "H": {
+      "item": "l2hostility:hostility_essence"
+    },
+    "M": {
+      "item": "l2hostility:miracle_powder"
+    },
+    "G": {
+      "item": "apotheosis:gem_dust"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    }
+  },
+  "pattern": [
+    " H ",
+    "GNG",
+    " M "
+  ],
+  "result": {
+    "item": "apotheotic_hostility:gem_looting_charm"
+  },
+  "show_notification": true
+}
