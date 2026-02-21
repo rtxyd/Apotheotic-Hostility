@@ -19,14 +19,7 @@ public abstract class SpawnerLogicExtMixin {
     @Shadow(remap = false)
     public abstract net.minecraft.world.level.block.entity.BlockEntity getSpawnerBlockEntity();
 
-    @Redirect(
-            method = "serverTick",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/server/level/ServerLevel;tryAddFreshEntityWithPassengers(Lnet/minecraft/world/entity/Entity;)Z"
-            ),
-            remap = true
-    )
+    @Redirect(method = "serverTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;tryAddFreshEntityWithPassengers(Lnet/minecraft/world/entity/Entity;)Z"), remap = true)
     private boolean apotheotic_hostility$onTryAddFreshEntityWithPassengers(ServerLevel serverLevel, Entity entity) {
         boolean added = serverLevel.tryAddFreshEntityWithPassengers(entity);
 
@@ -34,27 +27,20 @@ public abstract class SpawnerLogicExtMixin {
             try {
                 var be = getSpawnerBlockEntity();
                 if (!(be instanceof ApothSpawnerTile tile)) return added;
-
                 if (!(tile instanceof IL2HSpawner l2hSpawner)) return added;
 
                 int spawnerLevel = l2hSpawner.apotheotic_hostility$getLevel();
                 if (spawnerLevel <= 0) return added;
-
                 if (!MobTraitCap.HOLDER.isProper(mob)) return added;
 
                 var optChunk = ChunkDifficulty.at(serverLevel, mob.blockPosition());
                 if (optChunk.isEmpty()) return added;
 
                 var cap = MobTraitCap.HOLDER.get(mob);
-
-                if (!cap.isInitialized()) {
-                    cap.init(serverLevel, mob, optChunk.get());
-                }
+                if (!cap.isInitialized()) cap.init(serverLevel, mob, optChunk.get());
 
                 cap.reinit(mob, spawnerLevel, false);
                 cap.dropRate = dev.xkmc.l2hostility.init.data.LHConfig.COMMON.dropRateFromSpawner.get();
-
-                ApotheoticHostility.LOGGER.info("[Spawner] Applied level {} to {}", spawnerLevel, mob.getType());
 
             } catch (Throwable t) {
                 ApotheoticHostility.LOGGER.error("[Spawner] Failed to apply level", t);
