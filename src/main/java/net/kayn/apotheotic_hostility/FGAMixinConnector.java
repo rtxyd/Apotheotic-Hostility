@@ -1,4 +1,4 @@
-package net.kayn.apotheotic_hostility.mixin;
+package net.kayn.apotheotic_hostility;
 
 import org.spongepowered.asm.mixin.Mixins;
 import org.spongepowered.asm.mixin.connect.IMixinConnector;
