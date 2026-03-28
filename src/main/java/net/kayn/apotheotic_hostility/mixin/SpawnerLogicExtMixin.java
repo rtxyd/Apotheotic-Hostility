@@ -40,7 +40,11 @@ public abstract class SpawnerLogicExtMixin {
                 if (!cap.isInitialized()) cap.init(serverLevel, mob, optChunk.get());
 
                 cap.reinit(mob, spawnerLevel, false);
-                cap.dropRate = dev.xkmc.l2hostility.init.data.LHConfig.COMMON.dropRateFromSpawner.get();
+                if (mob.isNoAi()) {
+                    cap.dropRate = 0f;
+                } else {
+                    cap.dropRate = dev.xkmc.l2hostility.init.data.LHConfig.COMMON.dropRateFromSpawner.get();
+                }
 
             } catch (Throwable t) {
                 ApotheoticHostility.LOGGER.error("[Spawner] Failed to apply level", t);

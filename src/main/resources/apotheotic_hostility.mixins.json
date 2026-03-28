@@ -5,16 +5,17 @@
   "refmap": "apotheotic_hostility.refmap.json",
   "mixins": [
     "ApothBossMixin",
-    "TraitSymbolMixin",
-    "BossEventsMixin",
-    "GemLootModifierMixin",
     "ApothSpawnerTileMixin",
-    "SpawnerLogicExtMixin",
+    "BossEventsMixin",
+    "DispellTraitMixin",
+    "GemLootModifierMixin",
+    "GemLootPoolEntryMixin",
     "ItemPopulatorMixin",
-    "RagnarokTraitMixin",
     "JEICompatMixin",
-    "DispellTraitMixin"
-
+    "LootModifierDebugMixin",
+    "RagnarokTraitMixin",
+    "SpawnerLogicExtMixin",
+    "TraitSymbolMixin"
   ],
   "client": [
   ],
