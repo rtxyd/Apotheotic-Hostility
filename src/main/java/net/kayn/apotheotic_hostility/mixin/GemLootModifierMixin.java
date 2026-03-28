@@ -10,12 +10,18 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = GemLootModifier.class, remap = false)
+@Mixin(value = LootModifier.class, remap = false)
 public class GemLootModifierMixin {
-    @Inject(method = "doApply", at = @At("HEAD"), cancellable = true, remap = false)
+    @Inject(
+            method = "apply",
+            at = @At("HEAD"),
+            cancellable = true,
+            remap = false
+    )
     private void cancelGemInjection(ObjectArrayList<ItemStack> generatedLoot, LootContext context, CallbackInfoReturnable<ObjectArrayList<ItemStack>> cir) {
-        System.out.println("GEM MIXIN FIRED");
-        cir.setReturnValue(generatedLoot);
-        cir.cancel();
+        if ((Object) this instanceof GemLootModifier) {
+            cir.setReturnValue(generatedLoot);
+            cir.cancel();
+        }
     }
 }

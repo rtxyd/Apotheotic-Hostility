@@ -13,7 +13,6 @@ import net.kayn.apotheotic_hostility.data.AffixEquipmentRuleManager;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -32,11 +31,8 @@ public class ItemPopulatorMixin {
             remap = false
     )
     private static void afterPostFill(MobTraitCap cap, LivingEntity le, CallbackInfo ci) {
-        System.out.println("POPULATOR MIXIN FIRED, LEVEL: " + cap.getLevel() + " NOAI: " + (le instanceof Mob mob && mob.isNoAi()));
         try {
             if (le.getPersistentData().getBoolean("apoth.boss")) return;
-            if (cap.getLevel() <= 0) return;
-            if (le instanceof Mob mob && mob.isNoAi()) return;
 
             int mobLevel = cap.getLevel();
             var rule = AffixEquipmentRuleManager.getInstance().getRuleForLevel(mobLevel);

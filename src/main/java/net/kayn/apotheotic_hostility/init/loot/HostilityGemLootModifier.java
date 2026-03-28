@@ -13,7 +13,6 @@ import net.kayn.apotheotic_hostility.data.GemDropRules;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -36,7 +35,6 @@ public class HostilityGemLootModifier extends LootModifier {
     @Override
     protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
         Entity entity = context.getParamOrNull(LootContextParams.THIS_ENTITY);
-        System.out.println("HOSTILITY MODIFIER FIRED: " + (entity != null ? entity.getType() : "null"));
 
         if (!(entity instanceof LivingEntity livingEntity)) {
             return generatedLoot;
@@ -48,10 +46,6 @@ public class HostilityGemLootModifier extends LootModifier {
 
         MobTraitCap cap = MobTraitCap.HOLDER.get(livingEntity);
         int mobLevel = cap.getLevel();
-        System.out.println("MOB: " + livingEntity.getType() + " LEVEL: " + mobLevel + " NOAI: " + (livingEntity instanceof Mob mob && mob.isNoAi()));
-
-        if (mobLevel <= 0) return generatedLoot;
-        if (livingEntity instanceof Mob mob && mob.isNoAi()) return generatedLoot;
 
         GemDropRules.GemDropEntry dropRule = GemDropRuleManager.getInstance().getDropForLevel(mobLevel);
 
@@ -60,7 +54,6 @@ public class HostilityGemLootModifier extends LootModifier {
         }
 
         if (context.getRandom().nextDouble() < dropRule.getChance()) {
-            System.out.println("GEM BEING ADDED BY HOSTILITY MODIFIER, MOB LEVEL: " + mobLevel);
             try {
                 LootRarity targetRarity = RarityRegistry.INSTANCE.getValue(dropRule.getTier());
                 if (targetRarity == null) {
